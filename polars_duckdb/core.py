@@ -4,9 +4,12 @@ MAE, MAPE, sMAPE, MASE are numpy functions in the original. Here they are
 replaced by a single DuckDB query — no numpy or sklearn needed for scoring.
 """
 
+import logging
 import duckdb
 import polars as pl
 from typing import Dict
+
+logger = logging.getLogger(__name__)
 
 
 def evaluate_forecasts(
@@ -58,4 +61,4 @@ def print_metrics(metrics: Dict[str, float]):
               "smape": "sMAPE (%)", "mase": "MASE"}
     for key in order:
         if key in metrics:
-            print(f"  {labels[key]:<12}: {metrics[key]:.4f}")
+            logger.info(f"  {labels[key]:<12}: {metrics[key]:.4f}")
