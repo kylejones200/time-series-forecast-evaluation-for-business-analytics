@@ -1,7 +1,7 @@
 # Time Series Forecast Evaluation for Business Analytics
 
-**Published:** 2024-09-10
-**Medium:** [https://medium.com/@kyle-t-jones/time-series-forecast-evaluation-for-business-analytics-3f5b6a634717](https://medium.com/@kyle-t-jones/time-series-forecast-evaluation-for-business-analytics-3f5b6a634717)
+Published: 2024-09-10
+Medium: [https://medium.com/@kyle-t-jones/time-series-forecast-evaluation-for-business-analytics-3f5b6a634717](https://medium.com/@kyle-t-jones/time-series-forecast-evaluation-for-business-analytics-3f5b6a634717)
 
 ## About
 
