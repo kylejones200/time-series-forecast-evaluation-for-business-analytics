@@ -1,10 +1,10 @@
 # Description: Short example for Time Series Forecast Evaluation for Business Analytics.
 
 
-
-from sklearn.metrics import mean_absolute_error, mean_squared_error
 import logging
+
 import numpy as np
+from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -23,15 +23,26 @@ logger.info(f"Mean Absolute Error (MAE): {mae:.2f}")
 logger.info(f"Root Mean Squared Error (RMSE): {rmse:.2f}")
 
 
-
 def mean_absolute_percentage_error(actual, forecast):
- """Compute Mean Absolute Percentage Error (MAPE)"""
- return np.mean(np.abs((actual - forecast) / actual)) * 100
-def symmetric_mean_absolute_percentage_error(actual, forecast):
- """Compute Symmetric Mean Absolute Percentage Error (sMAPE)"""
- return np.mean(np.abs(actual - forecast) / ((np.abs(actual) + np.abs(forecast)) / 2)) * 100
-mape = mean_absolute_percentage_error(actual, forecast)
-smape = symmetric_mean_absolute_percentage_error(actual, forecast)
-logger.info(f"Mean Absolute Percentage Error (MAPE): {mape:.2f}%")
-logger.info(f"Symmetric Mean Absolute Percentage Error (sMAPE): {smape:.2f}%")
+    """Compute Mean Absolute Percentage Error (MAPE)"""
+    return np.mean(np.abs((actual - forecast) / actual)) * 100
 
+
+def symmetric_mean_absolute_percentage_error(actual, forecast):
+    """Compute Symmetric Mean Absolute Percentage Error (sMAPE)"""
+    return (
+        np.mean(np.abs(actual - forecast) / ((np.abs(actual) + np.abs(forecast)) / 2))
+        * 100
+    )
+
+
+
+def main():
+    mape = mean_absolute_percentage_error(actual, forecast)
+    smape = symmetric_mean_absolute_percentage_error(actual, forecast)
+    logger.info(f"Mean Absolute Percentage Error (MAPE): {mape:.2f}%")
+    logger.info(f"Symmetric Mean Absolute Percentage Error (sMAPE): {smape:.2f}%")
+
+
+if __name__ == "__main__":
+    main()

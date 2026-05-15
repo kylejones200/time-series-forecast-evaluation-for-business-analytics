@@ -5,6 +5,7 @@ replaced by a single DuckDB query — no numpy or sklearn needed for scoring.
 """
 
 import logging
+
 import duckdb
 import polars as pl
 
@@ -25,7 +26,8 @@ def evaluate_forecasts(
     """
     pl.DataFrame({"actual": actual, "predicted": predicted})
 
-    base = duckdb.sql("""
+    base = (
+        duckdb.sql("""
         SELECT
             AVG(ABS(actual - predicted))
                 AS mae,
@@ -39,16 +41,21 @@ def evaluate_forecasts(
             SQRT(AVG(POWER(actual - predicted, 2)))
                 AS rmse
         FROM df
-    """).pl().row(0, named=True)
+    """)
+        .pl()
+        .row(0, named=True)
+    )
 
     if training is not None and len(training) > season:
-        pl.DataFrame({
-            "value":  training,
-            "lagged": training.shift(season),
-        }).drop_nulls()
-        denom = duckdb.sql(
-            "SELECT AVG(ABS(value - lagged)) AS d FROM train_df"
-        ).pl()[0, "d"]
+        pl.DataFrame(
+            {
+                "value": training,
+                "lagged": training.shift(season),
+            }
+        ).drop_nulls()
+        denom = duckdb.sql("SELECT AVG(ABS(value - lagged)) AS d FROM train_df").pl()[
+            0, "d"
+        ]
         base = {**base, "mase": base["mae"] / denom if denom else float("nan")}
 
     return base
@@ -56,8 +63,13 @@ def evaluate_forecasts(
 
 def print_metrics(metrics: dict[str, float]):
     order = ["mae", "rmse", "mape", "smape", "mase"]
-    labels = {"mae": "MAE", "rmse": "RMSE", "mape": "MAPE (%)",
-              "smape": "sMAPE (%)", "mase": "MASE"}
+    labels = {
+        "mae": "MAE",
+        "rmse": "RMSE",
+        "mape": "MAPE (%)",
+        "smape": "sMAPE (%)",
+        "mase": "MASE",
+    }
     for key in order:
         if key in metrics:
             logger.info(f"  {labels[key]:<12}: {metrics[key]:.4f}")
