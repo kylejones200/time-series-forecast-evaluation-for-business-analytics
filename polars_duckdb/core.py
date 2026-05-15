@@ -7,7 +7,6 @@ replaced by a single DuckDB query — no numpy or sklearn needed for scoring.
 import logging
 import duckdb
 import polars as pl
-from typing import Dict
 
 logger = logging.getLogger(__name__)
 
@@ -17,14 +16,14 @@ def evaluate_forecasts(
     predicted: pl.Series,
     training: pl.Series | None = None,
     season: int = 12,
-) -> Dict[str, float]:
+) -> dict[str, float]:
     """
     Compute MAE, MAPE, sMAPE, and optionally MASE via DuckDB SQL.
 
     MASE requires the training series to compute the seasonal naive denominator.
     If training is None, MASE is omitted.
     """
-    df = pl.DataFrame({"actual": actual, "predicted": predicted})
+    pl.DataFrame({"actual": actual, "predicted": predicted})
 
     base = duckdb.sql("""
         SELECT
@@ -43,7 +42,7 @@ def evaluate_forecasts(
     """).pl().row(0, named=True)
 
     if training is not None and len(training) > season:
-        train_df = pl.DataFrame({
+        pl.DataFrame({
             "value":  training,
             "lagged": training.shift(season),
         }).drop_nulls()
@@ -55,7 +54,7 @@ def evaluate_forecasts(
     return base
 
 
-def print_metrics(metrics: Dict[str, float]):
+def print_metrics(metrics: dict[str, float]):
     order = ["mae", "rmse", "mape", "smape", "mase"]
     labels = {"mae": "MAE", "rmse": "RMSE", "mape": "MAPE (%)",
               "smape": "sMAPE (%)", "mase": "MASE"}

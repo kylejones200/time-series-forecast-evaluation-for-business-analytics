@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Forecast evaluation — Polars + DuckDB rewrite (no sklearn, no numpy metrics)."""
 
-import sys
 import logging
 import numpy as np
 import polars as pl
