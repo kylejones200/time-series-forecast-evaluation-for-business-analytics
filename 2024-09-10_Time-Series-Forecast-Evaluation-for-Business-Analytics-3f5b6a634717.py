@@ -1,6 +1,5 @@
 # Description: Short example for Time Series Forecast Evaluation for Business Analytics.
 
-
 import logging
 
 import numpy as np
@@ -11,7 +10,6 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
 )
-
 
 # Actual and forecast values
 actual = np.array([10, 12, 8, 11, 9, 13, 10, 12, 9, 11])
@@ -30,11 +28,7 @@ def mean_absolute_percentage_error(actual, forecast):
 
 def symmetric_mean_absolute_percentage_error(actual, forecast):
     """Compute Symmetric Mean Absolute Percentage Error (sMAPE)"""
-    return (
-        np.mean(np.abs(actual - forecast) / ((np.abs(actual) + np.abs(forecast)) / 2))
-        * 100
-    )
-
+    return np.mean(np.abs(actual - forecast) / ((np.abs(actual) + np.abs(forecast)) / 2)) * 100
 
 
 def main():

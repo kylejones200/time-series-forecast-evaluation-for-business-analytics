@@ -8,9 +8,7 @@ import pandas as pd
 import signalplot
 from sklearn.model_selection import TimeSeriesSplit
 
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 np.random.seed(42)
 signalplot.apply(font_family="serif")
@@ -129,15 +127,12 @@ def main(plot: bool = False):
     # Print mean metrics
     dfm = pd.DataFrame(metrics)
     logger.info(dfm.mean().to_string())
-
     # Plot last fold
     if plot:
         plt.figure(figsize=(9, 4))
         plt.plot(y.index, y.values, label="history", alpha=0.6)
         if last_pred is not None:
-            plt.plot(
-                last_pred.index, last_pred.values, label="Seasonal naive last fold"
-            )
+            plt.plot(last_pred.index, last_pred.values, label="Seasonal naive last fold")
         plt.legend()
         signalplot.save("eia_errors_last_fold.png")
 

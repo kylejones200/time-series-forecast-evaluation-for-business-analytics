@@ -20,12 +20,10 @@ def evaluate_forecasts(
 ) -> dict[str, float]:
     """
     Compute MAE, MAPE, sMAPE, and optionally MASE via DuckDB SQL.
-
     MASE requires the training series to compute the seasonal naive denominator.
     If training is None, MASE is omitted.
     """
     pl.DataFrame({"actual": actual, "predicted": predicted})
-
     base = (
         duckdb.sql("""
         SELECT
@@ -45,7 +43,6 @@ def evaluate_forecasts(
         .pl()
         .row(0, named=True)
     )
-
     if training is not None and len(training) > season:
         pl.DataFrame(
             {
@@ -53,9 +50,7 @@ def evaluate_forecasts(
                 "lagged": training.shift(season),
             }
         ).drop_nulls()
-        denom = duckdb.sql("SELECT AVG(ABS(value - lagged)) AS d FROM train_df").pl()[
-            0, "d"
-        ]
+        denom = duckdb.sql("SELECT AVG(ABS(value - lagged)) AS d FROM train_df").pl()[0, "d"]
         base = {**base, "mase": base["mae"] / denom if denom else float("nan")}
 
     return base
