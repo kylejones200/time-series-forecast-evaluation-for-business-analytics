@@ -11,14 +11,7 @@ Times Series has its own set of tools to measure the accuracy of a forecast mode
 
 Assessing the performance and accuracy of time series forecasts is a crucial step in the modeling process. This allows us to understand how well the model is capturing the underlying patterns in the data and to make informed decisions about model selection and refinement.
 
-## About
 
-Place the code for this article in this repository.
-The original article export is saved as `article.md`.
-
-## Files
-
-Add your `.ipynb`, `.py`, `.yaml`, `.js`, `.ts`, or other project files here.
 
 ## Disclaimer
 
